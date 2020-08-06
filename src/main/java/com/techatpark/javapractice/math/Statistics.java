@@ -1,4 +1,5 @@
 package com.techatpark.javapractice.math;
 
-public class Statistics {
+public final class Statistics {
+
 }
