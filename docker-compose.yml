@@ -6,5 +6,7 @@ services:
     container_name: r_studio
     ports:
       - "8787:8787"
+      - "6311:6311"
     volumes:
       - ./src/main/resources/scripts/r/:/home/rstudio/morewithr
+      - ./Rserv.conf:/etc/Rserv.conf
