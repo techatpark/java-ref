@@ -1,5 +1,10 @@
 package com.techatpark.javapractice;
 
+import com.techatpark.javapractice.constants.ApplicationConstants;
+
+/**
+ * Main Class.
+ */
 public final class Main {
     /**
      * Say Hello.
@@ -7,6 +12,6 @@ public final class Main {
      * @return Hellotext
      */
     public String sayHello(final String name) {
-        return "Hello " + name + "!";
+        return "Hello " + name + "! Welcome to " + ApplicationConstants.APPLICATION_NAME;
     }
 }

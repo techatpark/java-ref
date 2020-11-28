@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Test;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
-public class MyArchitectureTest {
+class MyArchitectureTest {
 
     @Test
-    public void some_architecture_rule() {
+     void some_architecture_rule() {
         JavaClasses importedClasses = new ClassFileImporter()
                 .withImportOption(new ImportOption.DoNotIncludeTests())
                 .withImportOption(new ImportOption.DoNotIncludeJars())
