@@ -31,9 +31,9 @@ class MyArchitectureTest {
 
 
 
-        ArchRule sql_should_be_in_repository =  classes().that().belongToAnyOf(Connection.class, Statement.class, PreparedStatement.class)
-                .should().onlyBeAccessed().byClassesThat().resideInAPackage("..repository..");
-//                resideInAnyPackage("..repository..").should().on(Connection.class, Statement.class, PreparedStatement.class).because("Jdbc classes should be used only in persistence layer");
-        sql_should_be_in_repository.check(importedClasses);
+//        ArchRule sql_should_be_in_repository =  classes().that().resideInAPackage("..java.sql..")
+//                .should().onlyBeAccessed().byAnyPackage("..repository..");
+//////                resideInAnyPackage("..repository..").should().on(Connection.class, Statement.class, PreparedStatement.class).because("Jdbc classes should be used only in persistence layer");
+//        sql_should_be_in_repository.check(importedClasses);
     }
 }
