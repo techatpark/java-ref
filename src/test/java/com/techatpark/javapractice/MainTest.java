@@ -10,7 +10,7 @@ class MainTest {
     private final Main main;
 
     MainTest() {
-        this.main = new Main();
+        this.main = new Main(null);
     }
 
     @Test
