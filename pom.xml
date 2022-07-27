@@ -70,6 +70,9 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>${jacoco-maven-plugin.version}</version>
+				<configuration>
+					<includes>com\.techatpark\.javapractice\..*</includes>
+				</configuration>
 				<executions>
 					<execution>
 						<id>default-prepare-agent</id>
