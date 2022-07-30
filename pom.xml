@@ -9,31 +9,52 @@
 	<description>Playground for Core Java</description>
 
 	<properties>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
-
-		<!-- Version of Dependencies -->
+		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
+		<junit.version>5.8.2</junit.version>
+		<archunit.version>0.23.1</archunit.version>
+		<sonar.version>3.7.0.1746</sonar.version>
+		<surefire.version>2.22.2</surefire.version>
+		<jacoco.version>0.8.8</jacoco.version>
 		<maven.checkstyle.version>3.1.2</maven.checkstyle.version>
-		<checkstyle.version>10.2</checkstyle.version>
-		<exec-maven.version>${maven-enforcer-plugin.version}</exec-maven.version>
-		<jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
-		<maven-enforcer-plugin.version>3.1.0</maven-enforcer-plugin.version>
+		<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+		<maven-javadoc.version>3.3.1</maven-javadoc.version>
+		<maven-gpg.version>3.0.1</maven-gpg.version>
+		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+		<checkstyle.version>9.0.1</checkstyle.version>
+		<jvm.options>
+			--add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens
+			java.base/java.math=ALL-UNNAMED --add-opens json.parser/com.techatpark.sjson=ALL-UNNAMED
+		</jvm.options>
 	</properties>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>${junit.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<dependencies>
+
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<version>5.8.2</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.tngtech.archunit</groupId>
-			<artifactId>archunit-junit5-api</artifactId>
-			<version>0.23.1</version>
+			<artifactId>archunit</artifactId>
+			<version>${archunit.version}</version>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -65,36 +86,28 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>${sonar.version}</version>
+			</plugin>
+			<!--JaCoCo Maven Plugin-->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco-maven-plugin.version}</version>
-				<configuration>
-					<includes>com\.techatpark\.javapractice\..*</includes>
-				</configuration>
+				<version>${jacoco.version}</version>
 				<executions>
 					<execution>
-						<id>default-prepare-agent</id>
-						<phase>test</phase>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-						<configuration>
-							<!-- Sets the path to the file which contains the execution data. -->
-							<destFile>target/coverage-reports/jacoco-ut.exec</destFile>
-						</configuration>
+						<id>prepare-agent</id>
+						<goals><goal>prepare-agent</goal></goals>
 					</execution>
 					<execution>
-						<id>default-report</id>
+						<id>report</id>
 						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
+						<goals><goal>report</goal></goals>
 					</execution>
 					<execution>
-						<id>default-check</id>
-						<phase>test</phase>
+						<id>jacoco-check</id>
 						<goals>
 							<goal>check</goal>
 						</goals>
@@ -106,53 +119,42 @@
 										<limit>
 											<counter>LINE</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>1.0</minimum>
+											<minimum>0.97</minimum>
 										</limit>
 									</limits>
 								</rule>
 							</rules>
 						</configuration>
 					</execution>
-					<execution>
-						<id>post-integration-test</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-						<configuration>
-							<dataFile>target/coverage-reports/jacoco-it.exec</dataFile>
-							<outputDirectory>target/coverage-reports/jacoco-it</outputDirectory>
-						</configuration>
-					</execution>
 				</executions>
 			</plugin>
-
+			<!--            <plugin>-->
+			<!--                <groupId>org.apache.maven.plugins</groupId>-->
+			<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+			<!--                <version>3.8.1</version>-->
+			<!--                <configuration>-->
+			<!--                    <compilerArgs>-->
+			<!--&lt;!&ndash;                        <arg>${jvm.options}</arg>&ndash;&gt;-->
+			<!--                    </compilerArgs>-->
+			<!--                </configuration>-->
+			<!--            </plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>${maven-enforcer-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>enforce</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<banDuplicatePomDependencyVersions />
-								<requireJavaVersion>
-									<version>${maven.compiler.source}</version>
-								</requireJavaVersion>
-								<!--other rules -->
-								<!--<myCustomRule implementation="com.baeldung.enforcer.MyCustomRule"/> -->
-							</rules>
-						</configuration>
-					</execution>
-				</executions>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${surefire.version}</version>
+				<configuration>
+					<argLine>@{argLine} ${jvm.options}</argLine>
+				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>${surefire.version}</version>
+			</plugin>
+
+
 		</plugins>
-
-
 	</build>
+
 
 </project>
