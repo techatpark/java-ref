@@ -156,7 +156,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${surefire.version}</version>
 				<configuration>
-					<argLine>@{argLine} ${jvm.options}</argLine>
+					<argLine>${jvm.options}</argLine>
 				</configuration>
 			</plugin>
 			<plugin>
