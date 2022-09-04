@@ -13,34 +13,56 @@ public class NumberParser {
     public Number parser(final String source)
             throws ParseException {
 
-
-        int length = source.length();
-
-        switch (length) {
-            case 1,2:
+        switch (source.length()) {
+            case 1, 2:
                 return Byte.parseByte(source);
             case 3:
-                return isByte(source) ? Byte.parseByte(source) : Short.parseShort(source);
-            case 4,5,6:
+                if(isByte(source)) {
+                    return Byte.parseByte(source);
+                }
                 return Short.parseShort(source);
+            case 4:
+                return Short.parseShort(source);
+            case 5:
+                if(isShort(source)) {
+                    return Short.parseShort(source);
+                }
+                return Integer.parseInt(source);
+            default:
+                throw new UnsupportedOperationException("Yet to implement");
         }
 
-        throw new UnsupportedOperationException("Yet to implement");
+
     }
 
-    private boolean isByte(String source) {
-        int charZero = Character.getNumericValue(source.charAt(0));
-        if(charZero == 1) {
-            int charOne = Character.getNumericValue(source.charAt(1));
-            if(charOne < 3) {
-                int charTwo = Character.getNumericValue(source.charAt(2));
-                if(charTwo != 8 && charTwo != 9) {
-                    return true;
-                }
-                return false;
+    private boolean isByte(final String source) {
+        if (Character.getNumericValue(source.charAt(0)) == 1) {
+            if (Character.getNumericValue(source.charAt(1)) < 3) {
+                int lastDigit = Character.getNumericValue(source.charAt(2));
+                return !(lastDigit == 8
+                        || lastDigit == 9);
             }
-            return false;
         }
         return false;
     }
+
+    // 32767
+    private boolean isShort(final String source) {
+        if (Character.getNumericValue(source.charAt(0)) < 4) {
+            if (Character.getNumericValue(source.charAt(1)) < 3) {
+                if (Character.getNumericValue(source.charAt(2)) < 8) {
+                    if (Character.getNumericValue(source.charAt(3)) < 7) {
+                        int lastDigit = Character.getNumericValue(source.charAt(4));
+                        return !(lastDigit == 8
+                                || lastDigit == 9);
+                    }
+                }
+
+            }
+        }
+        return false;
+    }
+
+
+
 }

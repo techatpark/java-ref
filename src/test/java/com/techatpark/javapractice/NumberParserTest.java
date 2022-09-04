@@ -9,21 +9,25 @@ class NumberParserTest {
 
     @Test
     void parserNumber() throws ParseException {
+
+
         NumberParser parser = new NumberParser();
 
-        Assertions.assertEquals(parser.parser("12").getClass(), Byte.class ,
-                "Byte not identified properly");
+        Assertions.assertInstanceOf(
+                Byte.class,
+                parser.parser(Byte.toString(Byte.MAX_VALUE)),
+                "Byte Max not identified properly");
 
-        Assertions.assertEquals(parser.parser("1283").getClass(), Short.class ,
-                "Short not identified properly");
+        Assertions.assertInstanceOf(
+                Short.class,
+                parser.parser(Short.toString(Short .MAX_VALUE)),
+                "Short Max not identified properly");
 
-        Assertions.assertEquals(parser.parser("245").getClass(), Short.class ,
-                "Short not identified properly");
+//        Assertions.assertInstanceOf(
+//                Integer.class,
+//                parser.parser(Integer.toString(Integer .MAX_VALUE)),
+//                "Integer Max not identified properly");
 
-        Assertions.assertEquals(parser.parser("135").getClass(), Short.class ,
-                "Short not identified properly");
 
-        Assertions.assertEquals(parser.parser("129").getClass(), Short.class ,
-                "Short not identified properly");
     }
 }
