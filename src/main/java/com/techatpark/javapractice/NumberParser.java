@@ -39,12 +39,12 @@ public class NumberParser {
                 throw new UnsupportedOperationException("Yet to implement");
         }
 
-
     }
 
+    // 127
     private boolean isByte(final String source) {
         int lastDigit = Character.getNumericValue(source.charAt(2));
-        return Character.getNumericValue(source.charAt(0)) == 1
+        return Character.getNumericValue(source.charAt(0)) < 2
                 && Character.getNumericValue(source.charAt(1)) < 3
                 && !(lastDigit == 8 || lastDigit == 9);
     }
@@ -61,7 +61,7 @@ public class NumberParser {
 
     // 2147483647
     private boolean isInteger(final String source) {
-        int lastDigit = Character.getNumericValue(source.charAt(7));
+        int lastDigit = Character.getNumericValue(source.charAt(9));
         return  Character.getNumericValue(source.charAt(0)) < 3
                 && Character.getNumericValue(source.charAt(1)) < 2
                 && Character.getNumericValue(source.charAt(2)) < 5

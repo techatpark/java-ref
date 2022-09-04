@@ -10,7 +10,6 @@ class NumberParserTest {
     @Test
     void parserNumber() throws ParseException {
 
-        System.out.println(Long.MAX_VALUE);
         NumberParser parser = new NumberParser();
 
         Assertions.assertInstanceOf(
