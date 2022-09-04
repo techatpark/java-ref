@@ -28,6 +28,13 @@ public class NumberParser {
                     return Short.parseShort(source);
                 }
                 return Integer.parseInt(source);
+            case 6, 7, 8 , 9:
+                return Integer.parseInt(source);
+            case 10:
+                if(isInteger(source)) {
+                    return Integer.parseInt(source);
+                }
+                return Long.parseLong(source);
             default:
                 throw new UnsupportedOperationException("Yet to implement");
         }
@@ -36,33 +43,36 @@ public class NumberParser {
     }
 
     private boolean isByte(final String source) {
-        if (Character.getNumericValue(source.charAt(0)) == 1) {
-            if (Character.getNumericValue(source.charAt(1)) < 3) {
-                int lastDigit = Character.getNumericValue(source.charAt(2));
-                return !(lastDigit == 8
-                        || lastDigit == 9);
-            }
-        }
-        return false;
+        int lastDigit = Character.getNumericValue(source.charAt(2));
+        return Character.getNumericValue(source.charAt(0)) == 1
+                && Character.getNumericValue(source.charAt(1)) < 3
+                && !(lastDigit == 8 || lastDigit == 9);
     }
 
     // 32767
     private boolean isShort(final String source) {
-        if (Character.getNumericValue(source.charAt(0)) < 4) {
-            if (Character.getNumericValue(source.charAt(1)) < 3) {
-                if (Character.getNumericValue(source.charAt(2)) < 8) {
-                    if (Character.getNumericValue(source.charAt(3)) < 7) {
-                        int lastDigit = Character.getNumericValue(source.charAt(4));
-                        return !(lastDigit == 8
-                                || lastDigit == 9);
-                    }
-                }
-
-            }
-        }
-        return false;
+        int lastDigit = Character.getNumericValue(source.charAt(4));
+        return  Character.getNumericValue(source.charAt(0)) < 4
+                && Character.getNumericValue(source.charAt(1)) < 3
+                && Character.getNumericValue(source.charAt(2)) < 8
+                && Character.getNumericValue(source.charAt(3)) < 7
+                && !(lastDigit == 8 || lastDigit == 9);
     }
 
+    // 2147483647
+    private boolean isInteger(final String source) {
+        int lastDigit = Character.getNumericValue(source.charAt(7));
+        return  Character.getNumericValue(source.charAt(0)) < 3
+                && Character.getNumericValue(source.charAt(1)) < 2
+                && Character.getNumericValue(source.charAt(2)) < 5
+                && Character.getNumericValue(source.charAt(3)) < 8
+                && Character.getNumericValue(source.charAt(4)) < 5
+                && Character.getNumericValue(source.charAt(5)) < 9
+                && Character.getNumericValue(source.charAt(6)) < 4
+                && Character.getNumericValue(source.charAt(7)) < 7
+                && Character.getNumericValue(source.charAt(8)) < 5
+                && !(lastDigit == 8 || lastDigit == 9);
+    }
 
 
 }
