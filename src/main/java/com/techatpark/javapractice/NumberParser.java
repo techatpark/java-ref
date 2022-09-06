@@ -1,7 +1,7 @@
 package com.techatpark.javapractice;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.ParseException;
 
 public class NumberParser {
 
@@ -9,10 +9,8 @@ public class NumberParser {
      * Gets Compact Number of a source String.
      * @param source
      * @return Byte, Short, Integer, Long or BigInteger
-     * @throws ParseException
      */
-    public Number parseNumber(final String source)
-            throws ParseException {
+    public Number parseNumber(final String source) {
         switch (source.length()) {
             case 1, 2:
                 return Byte.parseByte(source);
@@ -52,10 +50,18 @@ public class NumberParser {
      * Gets Compact decimal Number of a source String.
      * @param source
      * @return Float,Double or BigDecimal
-     * @throws ParseException
      */
     public Number parseDecimalNumber(final String source) {
-        return null;
+        Float aFloat = Float.parseFloat(source);
+        if(aFloat.floatValue() == Float.POSITIVE_INFINITY) {
+            Double aDouble = Double.parseDouble(source);
+            if(aDouble.doubleValue() == Double.POSITIVE_INFINITY) {
+                return new BigDecimal(source);
+            }
+            return aDouble;
+        }
+
+        return aFloat;
     }
 
     //9223372036854775807
