@@ -6,12 +6,12 @@ import java.text.ParseException;
 public class NumberParser {
 
     /**
-     * Getc Compact Number of a source String.
+     * Gets Compact Number of a source String.
      * @param source
-     * @return Byte, Short, Integer or Long
+     * @return Byte, Short, Integer, Long or BigInteger
      * @throws ParseException
      */
-    public Number parser(final String source)
+    public Number parseNumber(final String source)
             throws ParseException {
         switch (source.length()) {
             case 1, 2:
@@ -27,26 +27,35 @@ public class NumberParser {
                 if(isShort(source)) {
                     return Short.parseShort(source);
                 }
-                return Integer.parseInt(source);
+                return Integer.parseUnsignedInt(source);
             case 6, 7, 8 , 9:
-                return Integer.parseInt(source);
+                return Integer.parseUnsignedInt(source);
             case 10:
                 if(isInteger(source)) {
-                    return Integer.parseInt(source);
+                    return Integer.parseUnsignedInt(source);
                 }
-                return Long.parseLong(source);
+                return Long.parseUnsignedLong(source);
             case 11,12,13,14,15,16,17,18:
-                return Long.parseLong(source);
+                return Long.parseUnsignedLong(source);
             case 19:
                 if(isLong(source)) {
-                    return Long.parseLong(source);
+                    return Long.parseUnsignedLong(source);
                 }
                 return new BigInteger(source);
             default:
                 return new BigInteger(source);
-//                throw new UnsupportedOperationException("Yet to implement");
         }
 
+    }
+
+    /**
+     * Gets Compact decimal Number of a source String.
+     * @param source
+     * @return Float,Double or BigDecimal
+     * @throws ParseException
+     */
+    public Number parseDecimalNumber(final String source) {
+        return null;
     }
 
     //9223372036854775807
