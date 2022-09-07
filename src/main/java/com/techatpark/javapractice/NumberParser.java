@@ -94,14 +94,14 @@ public class NumberParser {
                 && !(lastDigit == 8 || lastDigit == 9);
     }
 
-    // 32767
+    // 32767  21769
+
     private boolean isShort(final String source) {
         int lastDigit = Character.getNumericValue(source.charAt(4));
-        return  Character.getNumericValue(source.charAt(0)) < 4
+        return  !(lastDigit == 8 || lastDigit == 9) && Character.getNumericValue(source.charAt(0)) < 4
                 && Character.getNumericValue(source.charAt(1)) < 3
                 && Character.getNumericValue(source.charAt(2)) < 8
-                && Character.getNumericValue(source.charAt(3)) < 7
-                && !(lastDigit == 8 || lastDigit == 9);
+                && Character.getNumericValue(source.charAt(3)) < 7;
     }
 
     // 2147483647
