@@ -14,24 +14,27 @@ class NumberParserTest {
 
         NumberParser parser = new NumberParser();
 
-        for (int i = 0; i <= Byte.MAX_VALUE; i++) {
+        for (int i = 100; i <= Byte.MAX_VALUE; i++) {
             Assertions.assertInstanceOf(
                     Byte.class,
                     parser.parseNumber(String.valueOf(i),true),
                     "Byte Max not identified properly for " + i);
         }
 
-        for (int i = Byte.MAX_VALUE+1; i <= Short.MAX_VALUE; i++) {
+        for (int i = 10000; i <= Short.MAX_VALUE; i++) {
             Assertions.assertInstanceOf(
                     Short.class,
                     parser.parseNumber(String.valueOf(i),true),
                     "Short Max not identified properly for " + i);
         }
 
-        Assertions.assertInstanceOf(
-                Integer.class,
-                parser.parseNumber(Integer.toString(Integer.MAX_VALUE),true),
-                "Integer Max not identified properly");
+        for (int i = 2147483640; i != Integer.MIN_VALUE; ++i) {
+            Assertions.assertInstanceOf(
+                    Integer.class,
+                    parser.parseNumber(Integer.toString(i),true),
+                    "Integer not identified properly for " + i);
+        }
+
 
         Assertions.assertInstanceOf(
                 Long.class,
