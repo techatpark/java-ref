@@ -10,36 +10,38 @@ import java.text.ParseException;
 class NumberParserTest {
 
     @Test
-    void parserNumber() throws ParseException {
+    void parserNumber()  {
 
         NumberParser parser = new NumberParser();
 
-        Assertions.assertInstanceOf(
-                Byte.class,
-                parser.parseNumber(Byte.toString(Byte.MAX_VALUE)),
-                "Byte Max not identified properly");
+        for (int i = 0; i <= Byte.MAX_VALUE; i++) {
+            Assertions.assertInstanceOf(
+                    Byte.class,
+                    parser.parseNumber(String.valueOf(i),true),
+                    "Byte Max not identified properly for " + i);
+        }
 
-        Assertions.assertInstanceOf(
-                Short.class,
-                parser.parseNumber("21769"),
-                "Short Max not identified properly");
+        for (int i = Byte.MAX_VALUE+1; i <= Short.MAX_VALUE; i++) {
+            Assertions.assertInstanceOf(
+                    Short.class,
+                    parser.parseNumber(String.valueOf(i),true),
+                    "Short Max not identified properly for " + i);
+        }
 
         Assertions.assertInstanceOf(
                 Integer.class,
-                parser.parseNumber(Integer.toString(Integer.MAX_VALUE)),
+                parser.parseNumber(Integer.toString(Integer.MAX_VALUE),true),
                 "Integer Max not identified properly");
 
         Assertions.assertInstanceOf(
                 Long.class,
-                parser.parseNumber(Long.toString(Long.MAX_VALUE)),
+                parser.parseNumber(Long.toString(Long.MAX_VALUE),true),
                 "Long Max not identified properly");
 
         Assertions.assertInstanceOf(
                 BigInteger.class,
-                parser.parseNumber(BigInteger.valueOf(Long.MAX_VALUE).multiply(BigInteger.TWO).toString()),
+                parser.parseNumber(BigInteger.valueOf(Long.MAX_VALUE).multiply(BigInteger.TWO).toString(),true),
                 "BigInteger Max not identified properly");
-
-
     }
 
     @Test

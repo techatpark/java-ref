@@ -8,9 +8,10 @@ public class NumberParser {
     /**
      * Gets Compact Number of a source String.
      * @param source
+     * @param isNegative
      * @return Byte, Short, Integer, Long or BigInteger
      */
-    public Number parseNumber(final String source) {
+    public Number parseNumber(final String source, boolean isNegative) {
         switch (source.length()) {
             case 1, 2:
                 return Byte.parseByte(source);
