@@ -16,17 +16,11 @@ public class NumberParser {
             case 1, 2:
                 return Byte.parseByte(source);
             case 3:
-                if(isByte(source)) {
-                    return Byte.parseByte(source);
-                }
-                return Short.parseShort(source);
+                return getByteOrShort(source);
             case 4:
                 return Short.parseShort(source);
             case 5:
-                if(isShort(source)) {
-                    return Short.parseShort(source);
-                }
-                return Integer.parseUnsignedInt(source);
+                return getShortOrInteger(source);
             case 6, 7, 8 , 9:
                 return Integer.parseUnsignedInt(source);
             case 10:
@@ -44,7 +38,22 @@ public class NumberParser {
             default:
                 return new BigInteger(source);
         }
+    }
 
+    private Number getByteOrShort(String source) {
+        Short aShort = Short.parseShort(source);
+        if(aShort <= Byte.MAX_VALUE) {
+            return aShort.byteValue();
+        }
+        return aShort;
+    }
+
+    private Number getShortOrInteger(String source) {
+        Integer integer = Integer.parseUnsignedInt(source);
+        if(integer <= Short.MAX_VALUE) {
+            return integer.shortValue();
+        }
+        return integer;
     }
 
     /**
