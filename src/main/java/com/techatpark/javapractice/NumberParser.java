@@ -44,25 +44,25 @@ public class NumberParser {
 
 
     private Number getByteOrShort(String source) {
-        Short aShort = Short.parseShort(source);
+        short aShort = Short.parseShort(source);
         if(aShort <= Byte.MAX_VALUE) {
-            return aShort.byteValue();
+            return (byte) aShort;
         }
         return aShort;
     }
 
     private Number getShortOrInteger(String source) {
-        Integer integer = Integer.parseUnsignedInt(source);
+        int integer = Integer.parseUnsignedInt(source);
         if(integer <= Short.MAX_VALUE) {
-            return integer.shortValue();
+            return (short) integer;
         }
         return integer;
     }
 
     private Number getIntegerOrLong(String source) {
-        Long aLong = Long.parseUnsignedLong(source);
+        long aLong = Long.parseUnsignedLong(source);
         if(aLong <= Integer.MAX_VALUE) {
-            return aLong.intValue();
+            return (int) aLong;
         }
         return aLong;
     }
@@ -72,10 +72,10 @@ public class NumberParser {
      * @return Float,Double or BigDecimal
      */
     public Number parseDecimalNumber(final String source) {
-        Float aFloat = Float.parseFloat(source);
-        if(aFloat.floatValue() == Float.POSITIVE_INFINITY) {
-            Double aDouble = Double.parseDouble(source);
-            if(aDouble.doubleValue() == Double.POSITIVE_INFINITY) {
+        float aFloat = Float.parseFloat(source);
+        if(aFloat == Float.POSITIVE_INFINITY) {
+            double aDouble = Double.parseDouble(source);
+            if(aDouble == Double.POSITIVE_INFINITY) {
                 return new BigDecimal(source);
             }
             return aDouble;
