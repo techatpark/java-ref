@@ -14,31 +14,31 @@ class NumberParserTest {
 
         NumberParser parser = new NumberParser();
 
-//        Assertions.assertInstanceOf(
-//                Byte.class,
-//                parser.parseNumber(Byte.toString(Byte.MAX_VALUE)),
-//                "Byte Max not identified properly");
+        Assertions.assertInstanceOf(
+                Byte.class,
+                parser.parseNumber(Byte.toString(Byte.MAX_VALUE)),
+                "Byte Max not identified properly");
 
         Assertions.assertInstanceOf(
                 Short.class,
                 parser.parseNumber("21769"),
                 "Short Max not identified properly");
 
-//        Assertions.assertInstanceOf(
-//                Integer.class,
-//                parser.parseNumber(Integer.toString(Integer.MAX_VALUE)),
-//                "Integer Max not identified properly");
-//
-//        Assertions.assertInstanceOf(
-//                Long.class,
-//                parser.parseNumber(Long.toString(Long.MAX_VALUE)),
-//                "Long Max not identified properly");
-//
-//        Assertions.assertInstanceOf(
-//                BigInteger.class,
-//                parser.parseNumber(BigInteger.valueOf(Long.MAX_VALUE).multiply(BigInteger.TWO).toString()),
-//                "BigInteger Max not identified properly");
-//
+        Assertions.assertInstanceOf(
+                Integer.class,
+                parser.parseNumber(Integer.toString(Integer.MAX_VALUE)),
+                "Integer Max not identified properly");
+
+        Assertions.assertInstanceOf(
+                Long.class,
+                parser.parseNumber(Long.toString(Long.MAX_VALUE)),
+                "Long Max not identified properly");
+
+        Assertions.assertInstanceOf(
+                BigInteger.class,
+                parser.parseNumber(BigInteger.valueOf(Long.MAX_VALUE).multiply(BigInteger.TWO).toString()),
+                "BigInteger Max not identified properly");
+
 
     }
 
