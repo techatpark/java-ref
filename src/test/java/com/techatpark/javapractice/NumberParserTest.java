@@ -16,8 +16,18 @@ class NumberParserTest {
 
         Byte aByte;
 
+        Assertions.assertEquals(
+                (byte) -99,
+                parser.parseNumber(String.valueOf(99),true),
+                "Byte identified properly for ");
+
+        Assertions.assertEquals(
+                (byte) 99,
+                parser.parseNumber(String.valueOf(99),false),
+                "Byte identified properly for ");
+
         for (int i = Byte.MIN_VALUE; i > 0; i++) {
-            aByte = (Byte) parser.parseNumber(String.valueOf(i * -1),true);
+            aByte = (Byte) parser.parseNumber(String.valueOf(-i),true);
             Assertions.assertEquals(
                     (byte) i,
                     aByte,
@@ -35,7 +45,7 @@ class NumberParserTest {
         Short aShort ;
 
         for (int i = Short.MIN_VALUE; i < -10000; i++) {
-            aShort = (Short) parser.parseNumber(String.valueOf(i * -1),true);
+            aShort = (Short) parser.parseNumber(String.valueOf(-i),true);
             Assertions.assertEquals(
                     (short) i,
                     aShort,

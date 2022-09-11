@@ -14,11 +14,11 @@ public class NumberParser {
     public Number parseNumber(final String source, boolean isNegative) {
         switch (source.length()) {
             case 1, 2:
-                return isNegative ? -Byte.parseByte(source) : Byte.parseByte(source);
+                return isNegative ? (byte) -Byte.parseByte(source) : Byte.parseByte(source);
             case 3:
                 return getByteOrShort(source,isNegative);
             case 4:
-                return isNegative ? -Short.parseShort(source) : Short.parseShort(source);
+                return isNegative ? (short) -Short.parseShort(source) : Short.parseShort(source);
             case 5:
                 return getShortOrInteger(source,isNegative);
             case 6, 7, 8 , 9:
