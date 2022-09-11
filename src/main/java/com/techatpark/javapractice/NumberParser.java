@@ -91,12 +91,20 @@ public class NumberParser {
 
     private Number getLongOrBigNumber(String source, boolean isNegative) {
         BigInteger bigInteger = new BigInteger(source);
-        if(bigInteger.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > -1) {
-            return bigInteger.longValue();
-        }
-        return bigInteger;
-    }
+        if(isNegative) {
+            bigInteger = bigInteger.multiply(new BigInteger("-1"));
+            if(bigInteger.compareTo(BigInteger.valueOf(Long.MIN_VALUE)) < -1) {
+                return bigInteger.longValue();
+            }
+            return bigInteger;
 
+        } else {
+            if(bigInteger.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > -1) {
+                return bigInteger.longValue();
+            }
+            return bigInteger;
+        }
+    }
 
     /**
      * Gets Compact decimal Number of a source String.
