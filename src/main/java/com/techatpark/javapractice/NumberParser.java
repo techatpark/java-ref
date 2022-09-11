@@ -14,9 +14,9 @@ public class NumberParser {
     public Number parseNumber(final String source, boolean isNegative) {
         switch (source.length()) {
             case 1, 2:
-                return Byte.parseByte(source);
+                return isNegative ? -Byte.parseByte(source) : Byte.parseByte(source);
             case 3:
-                return getByteOrShort(source);
+                return getByteOrShort(source,isNegative);
             case 4:
                 return Short.parseShort(source);
             case 5:
@@ -43,12 +43,23 @@ public class NumberParser {
     }
 
 
-    private Number getByteOrShort(String source) {
+    private Number getByteOrShort(String source, boolean isNegative) {
         short aShort = Short.parseShort(source);
-        if(aShort <= Byte.MAX_VALUE) {
-            return (byte) aShort;
+        if(isNegative) {
+            aShort = (short) -aShort;
+            if(aShort >= Byte.MIN_VALUE) {
+                return (byte) aShort;
+            }
+            return aShort;
+
+        } else {
+            if(aShort <= Byte.MAX_VALUE) {
+                return (byte) aShort;
+            }
+            return aShort;
         }
-        return aShort;
+
+
     }
 
     private Number getShortOrInteger(String source) {

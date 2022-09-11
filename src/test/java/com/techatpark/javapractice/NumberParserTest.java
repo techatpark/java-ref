@@ -16,7 +16,7 @@ class NumberParserTest {
 
         Byte aByte;
 
-        for (int i = Byte.MIN_VALUE; i <= -100; i++) {
+        for (int i = Byte.MIN_VALUE; i > 0; i++) {
             aByte = (Byte) parser.parseNumber(String.valueOf(i * -1),true);
             Assertions.assertEquals(
                     (byte) i,
