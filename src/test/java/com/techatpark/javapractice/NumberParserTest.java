@@ -51,8 +51,8 @@ class NumberParserTest {
 
         Integer aInteger;
 
-        for (int i = Integer.MIN_VALUE; i < -1000000000; i++) {
-            aInteger = (Integer) parser.parseNumber(String.valueOf(i * -1),true);
+        for (int i = Integer.MIN_VALUE; i < (Integer.MIN_VALUE+10); i++) {
+            aInteger = (Integer) parser.parseNumber(String.valueOf( ((long) i )* -1),true);
             Assertions.assertEquals(
                      i,
                     aInteger,

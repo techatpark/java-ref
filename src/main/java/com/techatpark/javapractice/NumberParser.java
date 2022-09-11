@@ -74,10 +74,19 @@ public class NumberParser {
 
     private Number getIntegerOrLong(String source, boolean isNegative) {
         long aLong = Long.parseUnsignedLong(source);
-        if(aLong <= Integer.MAX_VALUE) {
-            return (int) aLong;
+        if(isNegative) {
+            aLong = -aLong;
+            if(aLong >= Integer.MIN_VALUE) {
+                return (int) aLong;
+            }
+            return aLong;
+        } else {
+            if(aLong <= Integer.MAX_VALUE) {
+                return (int) aLong;
+            }
+            return aLong;
         }
-        return aLong;
+
     }
 
     private Number getLongOrBigNumber(String source, boolean isNegative) {
