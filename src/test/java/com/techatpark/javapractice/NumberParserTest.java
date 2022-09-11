@@ -21,7 +21,7 @@ class NumberParserTest {
             Assertions.assertEquals(
                     (byte) i,
                     aByte,
-                    "Byte not identified properly for " + i);
+                    "Byte identified properly for " + i);
         }
 
         for (int i = 100; i <= Byte.MAX_VALUE; i++) {
@@ -29,14 +29,34 @@ class NumberParserTest {
             Assertions.assertEquals(
                     (byte) i,
                     aByte,
-                    "Byte not identified properly for " + i);
+                    "Byte  identified properly for " + i);
+        }
+
+        Short aShort ;
+
+        for (int i = Short.MIN_VALUE; i < -10000; i++) {
+            aShort = (Short) parser.parseNumber(String.valueOf(i * -1),true);
+            Assertions.assertEquals(
+                    (short) i,
+                    aShort,
+                    "Short  not identified properly for " + i);
         }
 
         for (int i = 10000; i <= Short.MAX_VALUE; i++) {
             Assertions.assertInstanceOf(
                     Short.class,
                     parser.parseNumber(String.valueOf(i),false),
-                    "Short Max not identified properly for " + i);
+                    "Short  not identified properly for " + i);
+        }
+
+        Integer aInteger;
+
+        for (int i = Integer.MIN_VALUE; i < -1000000000; i++) {
+            aInteger = (Integer) parser.parseNumber(String.valueOf(i * -1),true);
+            Assertions.assertEquals(
+                     i,
+                    aInteger,
+                    "Integer  not identified properly for " + i);
         }
 
         for (int i = 2147483640; i != Integer.MIN_VALUE; ++i) {

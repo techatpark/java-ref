@@ -18,29 +18,22 @@ public class NumberParser {
             case 3:
                 return getByteOrShort(source,isNegative);
             case 4:
-                return Short.parseShort(source);
+                return isNegative ? -Short.parseShort(source) : Short.parseShort(source);
             case 5:
-                return getShortOrInteger(source);
+                return getShortOrInteger(source,isNegative);
             case 6, 7, 8 , 9:
-                return Integer.parseUnsignedInt(source);
+                return isNegative ? -Integer.parseUnsignedInt(source) : Integer.parseUnsignedInt(source);
             case 10:
-                return getIntegerOrLong(source);
+                return getIntegerOrLong(source,isNegative);
             case 11,12,13,14,15,16,17,18:
-                return Long.parseUnsignedLong(source);
+                return isNegative ? -Long.parseUnsignedLong(source) : Long.parseUnsignedLong(source) ;
             case 19:
-                return getLongOrBigNumber(source);
+                return getLongOrBigNumber(source,isNegative);
             default:
                 return new BigInteger(source);
         }
     }
 
-    private Number getLongOrBigNumber(String source) {
-        BigInteger bigInteger = new BigInteger(source);
-        if(bigInteger.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > -1) {
-            return bigInteger.longValue();
-        }
-        return bigInteger;
-    }
 
 
     private Number getByteOrShort(String source, boolean isNegative) {
@@ -62,21 +55,40 @@ public class NumberParser {
 
     }
 
-    private Number getShortOrInteger(String source) {
+    private Number getShortOrInteger(String source, boolean isNegative) {
         int integer = Integer.parseUnsignedInt(source);
-        if(integer <= Short.MAX_VALUE) {
-            return (short) integer;
+        if(isNegative) {
+            integer = -integer;
+            if(integer >= Short.MIN_VALUE) {
+                return (short) integer;
+            }
+            return integer;
+        } else {
+            if(integer <= Short.MAX_VALUE) {
+                return (short) integer;
+            }
+            return integer;
         }
-        return integer;
+
     }
 
-    private Number getIntegerOrLong(String source) {
+    private Number getIntegerOrLong(String source, boolean isNegative) {
         long aLong = Long.parseUnsignedLong(source);
         if(aLong <= Integer.MAX_VALUE) {
             return (int) aLong;
         }
         return aLong;
     }
+
+    private Number getLongOrBigNumber(String source, boolean isNegative) {
+        BigInteger bigInteger = new BigInteger(source);
+        if(bigInteger.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > -1) {
+            return bigInteger.longValue();
+        }
+        return bigInteger;
+    }
+
+
     /**
      * Gets Compact decimal Number of a source String.
      * @param source
