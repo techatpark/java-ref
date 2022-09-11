@@ -14,36 +14,46 @@ class NumberParserTest {
 
         NumberParser parser = new NumberParser();
 
+        Byte aByte;
+
+        for (int i = Byte.MIN_VALUE; i <= -100; i++) {
+            aByte = (Byte) parser.parseNumber(String.valueOf(i),true);
+            Assertions.assertEquals(
+                    (byte) i,
+                    aByte,
+                    "Byte not identified properly for " + i);
+        }
+
         for (int i = 100; i <= Byte.MAX_VALUE; i++) {
-            Assertions.assertInstanceOf(
-                    Byte.class,
-                    parser.parseNumber(String.valueOf(i),true),
-                    "Byte Max not identified properly for " + i);
+            aByte = (Byte) parser.parseNumber(String.valueOf(i),false);
+            Assertions.assertEquals(
+                    (byte) i,
+                    aByte,
+                    "Byte not identified properly for " + i);
         }
 
         for (int i = 10000; i <= Short.MAX_VALUE; i++) {
             Assertions.assertInstanceOf(
                     Short.class,
-                    parser.parseNumber(String.valueOf(i),true),
+                    parser.parseNumber(String.valueOf(i),false),
                     "Short Max not identified properly for " + i);
         }
 
         for (int i = 2147483640; i != Integer.MIN_VALUE; ++i) {
             Assertions.assertInstanceOf(
                     Integer.class,
-                    parser.parseNumber(Integer.toString(i),true),
+                    parser.parseNumber(Integer.toString(i),false),
                     "Integer not identified properly for " + i);
         }
 
-
         Assertions.assertInstanceOf(
                 Long.class,
-                parser.parseNumber(Long.toString(Long.MAX_VALUE),true),
+                parser.parseNumber(Long.toString(Long.MAX_VALUE),false),
                 "Long Max not identified properly");
 
         Assertions.assertInstanceOf(
                 BigInteger.class,
-                parser.parseNumber(BigInteger.valueOf(Long.MAX_VALUE).multiply(BigInteger.TWO).toString(),true),
+                parser.parseNumber(BigInteger.valueOf(Long.MAX_VALUE).multiply(BigInteger.TWO).toString(),false),
                 "BigInteger Max not identified properly");
     }
 
