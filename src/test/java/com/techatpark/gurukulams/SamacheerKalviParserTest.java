@@ -1,4 +1,4 @@
-package com.techatpark.javapractice;
+package com.techatpark.gurukulams;
 
 import org.junit.jupiter.api.Test;
 

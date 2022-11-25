@@ -8,4 +8,4 @@
  * @author jwhite
  * @version 1.1
  */
-package com.techatpark.javapractice;
+package com.techatpark.gurukulams;

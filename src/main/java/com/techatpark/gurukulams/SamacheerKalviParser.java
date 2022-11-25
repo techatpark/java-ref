@@ -1,4 +1,4 @@
-package com.techatpark.javapractice;
+package com.techatpark.gurukulams;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -14,27 +14,24 @@ import org.jsoup.select.Elements;
 
 import com.fasterxml.jackson.core.*;
 
-
-
 public class SamacheerKalviParser {
 
-
     public List<String> getSubjects() throws IOException {
-        List<String> urls = new ArrayList<>();
+
         Document doc = Jsoup.connect("https://samacheerkalvi.guru/samacheer-kalvi-12th-books-solutions/").get();
 
         Elements headlines = doc.select("div.entry-content > ul > li > a");
-
+        List<String> urls = new ArrayList<>(headlines.size());
         for (Element headline : headlines) {
             if(headline.absUrl("href").endsWith("solutions/")) {
+
+                System.out.println(headline.text());
+
                 urls.add(headline.absUrl("href"));
             }
-
         }
         return urls;
     }
-
-
 
     /**
      * Gets Questions.
@@ -47,13 +44,14 @@ public class SamacheerKalviParser {
 
         Elements paragraphs = doc.select("div.entry-content > ul > li > a");
 
-
-
         for (Element headline : paragraphs) {
 
-            String cName = headline.attr("title").split("Chapter ")[1].replaceAll(" ","-").toLowerCase();
-
-            c.put(cName.substring(cName.indexOf('-')+1), getQuestionsForChapter(headline.absUrl("href")));
+            String chapterName = headline.attr("title")
+                    .split("Chapter ")[1]
+                    .replaceAll(" ","-")
+                    .toLowerCase();
+            chapterName = chapterName.substring(chapterName.indexOf('-')+1);
+            c.put(chapterName, getQuestionsForChapter(headline.absUrl("href")));
 
         }
 
@@ -62,14 +60,14 @@ public class SamacheerKalviParser {
 
     private List<String> getQuestionsForChapter(String chapterUrl) throws IOException{
 
-        List<String> questionJSONs = new ArrayList<>();
-
         JsonFactory factory = new JsonFactory();
-
 
         Document doc = Jsoup.connect(chapterUrl).get();
 
         Elements paragraphs = doc.select(" div.entry-content > p");
+
+        List<String> questionJSONs = new ArrayList<>(paragraphs.size());
+
         for (Element paragraph : paragraphs) {
             String content = paragraph.toString();
             if(content.startsWith("<p>Question")
@@ -80,9 +78,6 @@ public class SamacheerKalviParser {
                 if(tokens.size() == 8
                 && tokens.get(2).contains(")")) {
                     tokens.remove(0);
-
-                    // tokens.forEach(System.out::println);
-
                     StringWriter jsonObjectWriter = new StringWriter();
                     JsonGenerator generator = factory.createGenerator(jsonObjectWriter);
                     generator.useDefaultPrettyPrinter(); // pretty print JSON
