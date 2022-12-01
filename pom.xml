@@ -9,13 +9,13 @@
 	<description>Playground for Core Java</description>
 
 	<properties>
-		<maven.compiler.target>17</maven.compiler.target>
-		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>19</maven.compiler.target>
+		<maven.compiler.source>19</maven.compiler.source>
 
-		<junit.version>5.8.2</junit.version>
-		<archunit.version>0.23.1</archunit.version>
-		<sonar.version>3.7.0.1746</sonar.version>
-		<surefire.version>2.22.2</surefire.version>
+		<junit.version>5.9.1</junit.version>
+		<archunit.version>1.0.1</archunit.version>
+		<sonar.version>3.9.1.2184</sonar.version>
+		<surefire.version>3.0.0-M7</surefire.version>
 		<jacoco.version>0.8.8</jacoco.version>
 		<maven.checkstyle.version>3.1.2</maven.checkstyle.version>
 		<checkstyle.version>10.3.2</checkstyle.version>
@@ -23,7 +23,7 @@
 			--add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens
 			java.base/java.math=ALL-UNNAMED
 		</jvm.options>
-		<asm.version>9.2</asm.version>
+		<asm.version>9.4</asm.version>
 	</properties>
 
 	<dependencyManagement>
@@ -94,6 +94,11 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>${jacoco.version}</version>
+				<configuration>
+					<includes>
+						<include>com/techatpark/*</include>
+					</includes>
+				</configuration>
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
@@ -117,7 +122,7 @@
 										<limit>
 											<counter>LINE</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>0.97</minimum>
+											<minimum>1.0</minimum>
 										</limit>
 									</limits>
 								</rule>
@@ -126,16 +131,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!--            <plugin>-->
-			<!--                <groupId>org.apache.maven.plugins</groupId>-->
-			<!--                <artifactId>maven-compiler-plugin</artifactId>-->
-			<!--                <version>3.8.1</version>-->
-			<!--                <configuration>-->
-			<!--                    <compilerArgs>-->
-			<!--&lt;!&ndash;                        <arg>${jvm.options}</arg>&ndash;&gt;-->
-			<!--                    </compilerArgs>-->
-			<!--                </configuration>-->
-			<!--            </plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
