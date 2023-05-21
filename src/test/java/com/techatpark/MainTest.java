@@ -6,9 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MainTest {
 
+    private final Main m = new Main();
+
     @Test
     void sayHello() {
-        System.out.println("Testing");
-        // assertEquals("Hello", new Main().sayHello());
+        assertEquals("Hello", m.sayHello());
     }
 }
