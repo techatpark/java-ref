@@ -7,5 +7,3 @@ services:
     ports:
       - "9000:9000"
       - "9092:9092"
-#    volumes:
-#      - ./init.db/postgres:/docker-entrypoint-initdb.d

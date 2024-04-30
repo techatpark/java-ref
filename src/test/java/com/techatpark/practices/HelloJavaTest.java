@@ -1,4 +1,4 @@
-package com.techatpark.practices.strings;
+package com.techatpark.practices;
 
 import org.junit.jupiter.api.Test;
 

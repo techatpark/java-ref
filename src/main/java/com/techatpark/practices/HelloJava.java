@@ -1,4 +1,4 @@
-package com.techatpark.practices.strings;
+package com.techatpark.practices;
 
 public class HelloJava {
     /**
