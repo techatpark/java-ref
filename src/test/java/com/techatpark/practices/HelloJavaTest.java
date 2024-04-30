@@ -2,13 +2,11 @@ package com.techatpark.practices.strings;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class StringReverserTest {
+class HelloJavaTest {
 
     @Test
     void testReverse() {
-        StringReverser reverser = new StringReverser();
+        HelloJava reverser = new HelloJava();
         String s = "i like this program very much";
         String[] words = s.split("\\s");
 

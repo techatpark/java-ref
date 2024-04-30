@@ -1,6 +1,6 @@
 package com.techatpark.practices.strings;
 
-public class StringReverser {
+public class HelloJava {
     /**
      * Reverse Given String.
      * @param s
