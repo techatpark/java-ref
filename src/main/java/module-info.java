@@ -3,6 +3,7 @@ module my.module {
     requires org.postgresql.jdbc;
     requires java.sql;
     requires java.naming;
+    requires spring.data.commons;
 
     opens com.techatpark.practices;
 }

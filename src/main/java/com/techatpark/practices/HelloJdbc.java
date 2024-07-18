@@ -1,5 +1,6 @@
 package com.techatpark.practices;
 
+import com.techatpark.practices.repository.EmployeeRepository;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
@@ -10,9 +11,9 @@ public class HelloJdbc {
         // Create DS
         DataSource dataSource = getDatasource();
 
-        String sql = """
-                SELECT id, title, directed_by FROM movie
-                """;
+
+        EmployeeRepository employeeRepository = new EmployeeRepository(dataSource);
+
 
 
     }

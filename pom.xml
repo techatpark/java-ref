@@ -24,7 +24,6 @@
 		<asm.version>9.4</asm.version>
 
 
-
 	</properties>
 
 	<dependencyManagement>
@@ -40,6 +39,13 @@
 	</dependencyManagement>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+			<version>3.3.2</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
