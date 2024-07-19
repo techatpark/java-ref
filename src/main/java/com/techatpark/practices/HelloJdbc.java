@@ -1,7 +1,7 @@
 package com.techatpark.practices;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import com.techatpark.practices.repository.EmployeeRepository;
-import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
 
@@ -20,8 +20,8 @@ public class HelloJdbc {
 
 
     private static DataSource getDatasource() {
-        PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        dataSource.setUser("postgres");
+        MysqlDataSource dataSource = new MysqlDataSource();
+        dataSource.setUser("user");
         dataSource.setPassword("password");
         return dataSource;
     }

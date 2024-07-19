@@ -1,6 +1,6 @@
 module my.module {
     requires java.base;
-    requires org.postgresql.jdbc;
+    requires mysql.connector.j;
     requires java.sql;
     requires java.naming;
     requires spring.data.commons;
