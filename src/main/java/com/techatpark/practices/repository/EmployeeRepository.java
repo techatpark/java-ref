@@ -14,7 +14,6 @@ public class EmployeeRepository implements CrudRepository<Employee, Long> {
         this.dataSource = dataSource;
     }
 
-
     @Override
     public <S extends Employee> S save(S entity) {
         return null;
@@ -52,26 +51,21 @@ public class EmployeeRepository implements CrudRepository<Employee, Long> {
 
     @Override
     public void deleteById(Long aLong) {
-
     }
 
     @Override
     public void delete(Employee entity) {
-
     }
 
     @Override
     public void deleteAllById(Iterable<? extends Long> longs) {
-
     }
 
     @Override
     public void deleteAll(Iterable<? extends Employee> entities) {
-
     }
 
     @Override
     public void deleteAll() {
-
     }
 }

@@ -6,23 +6,20 @@ import com.techatpark.practices.repository.EmployeeRepository;
 import javax.sql.DataSource;
 
 
-public class HelloJdbc {
+public class Main {
     public static void main(String[] args)  {
         // Create DS
         DataSource dataSource = getDatasource();
 
-
         EmployeeRepository employeeRepository = new EmployeeRepository(dataSource);
 
-
-
     }
-
 
     private static DataSource getDatasource() {
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setUser("user");
         dataSource.setPassword("password");
+        dataSource.setDatabaseName("mydb");
         return dataSource;
     }
 }
