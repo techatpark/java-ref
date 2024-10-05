@@ -29,23 +29,13 @@ public class SqlBuilder {
     }
 
     /**
-     * Static factory method to create a new SqlBuilder instance.
-     *
-     * @param sql the SQL query to be prepared
-     * @return an instance of SqlBuilder
-     */
-    public static SqlBuilder sql(final String sql) {
-        return new SqlBuilder(sql);
-    }
-
-    /**
      * Adds a parameter to the SQL query. The method allows chaining and is used
      * to bind values to placeholders in the SQL query.
      *
      * @param value the value of the parameter to be added
      * @return the current SqlBuilder instance, for method chaining
      */
-    public SqlBuilder param(Object value) {
+    public SqlBuilder param(final Object value) {
         this.parameters.add(value);
         return this;
     }
@@ -75,7 +65,7 @@ public class SqlBuilder {
      * @param rowMapper an implementation of RowMapper to map each row of the result set
      * @return a new Query instance for execution
      */
-    public <T> SqlBuilder.Query<T> query(RowMapper<T> rowMapper) {
+    public <T> SqlBuilder.Query<T> query(final RowMapper<T> rowMapper) {
         return this.new Query<>(rowMapper);
     }
 
@@ -102,7 +92,7 @@ public class SqlBuilder {
      *
      * @param <T> the type of object to map the result set to
      */
-    public class Query<T> {
+    public final class Query<T> {
 
         private final RowMapper<T> rowMapper;
 
@@ -130,6 +120,26 @@ public class SqlBuilder {
 
                 if (resultSet.next()) {
                     result = rowMapper.mapRow(resultSet);
+                }
+            }
+            return result;
+        }
+
+        /**
+         * Executes the SQL query and returns a list of mapped result from the ResultSet.
+         *
+         * @param connection the database connection used to execute the query
+         * @return the list of mapped result, or empty if no result is found
+         * @throws SQLException if a database access error occurs
+         */
+        public List<T> list(final Connection connection) throws SQLException {
+            List<T> result = new ArrayList<>();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                prepare(preparedStatement);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    result.add(rowMapper.mapRow(resultSet));
                 }
             }
             return result;

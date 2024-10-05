@@ -1,5 +1,6 @@
 package com.techatpark.practices.oops;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
@@ -22,9 +23,11 @@ class SqlBuilderTest {
                     id bigint auto_increment PRIMARY KEY,
                     title VARCHAR(80),
                     directed_by VARCHAR(80)
-                );
-                
-                INSERT INTO movie(title,directed_by) VALUES('Coolie','Lokesh');
+                )
+                """;
+
+        final String insertSql = """
+                INSERT INTO movie(title,directed_by) VALUES('Coolie','Lokesh')
                 """;
 
         final String query = """
@@ -33,17 +36,27 @@ class SqlBuilderTest {
 
         try (Connection connection = DriverManager.getConnection(DB_URL,USER,PASS)) {
 
-            int updateRows = SqlBuilder.sql(ddl).executeUpdate(connection);
+            int updateRows = new SqlBuilder(ddl).executeUpdate(connection);
 
-            System.out.println("Create Tables that updated " + updateRows);
+            Assertions.assertEquals(0,updateRows);
 
-            Movie movie = SqlBuilder.sql(query)
+            updateRows = new SqlBuilder(insertSql).executeUpdate(connection);
+
+            Assertions.assertEquals(1,updateRows);
+
+            Movie movie = new SqlBuilder(query)
                     .param(1)
                     .query(SqlBuilderTest::mapRow)
                     .single(connection);
 
-            System.out.println(movie);
+            Assertions.assertEquals("Coolie",movie.title());
 
+            new SqlBuilder(insertSql).executeUpdate(connection);
+
+            Assertions.assertEquals(2, new SqlBuilder("SELECT id, title, directed_by from movie")
+                    .query(SqlBuilderTest::mapRow)
+                    .list(connection)
+                    .size());
         }
 
     }
