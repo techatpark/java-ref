@@ -102,9 +102,28 @@ public class SqlBuilder {
         T mapRow(ResultSet resultSet) throws SQLException;
     }
 
+    /**
+     * Functional interface representing a parameter mapper that binds parameters
+     * to a {@link PreparedStatement}. Implementations of this interface are
+     * responsible for mapping a specific parameter to the appropriate placeholder
+     * in the SQL query.
+     *
+     * @param <T> the type of the parameter to be mapped
+     */
     public interface ParamMapper<T> {
+
+        /**
+         * Binds the provided parameters to the placeholders in the given
+         * {@link PreparedStatement}. This method is called to map and set
+         * parameter values for the SQL query.
+         *
+         * @param preparedStatement the {@link PreparedStatement} to bind parameters to
+         * @throws SQLException if a database access error occurs or if
+         *                      parameter binding fails
+         */
         void mapParam(PreparedStatement preparedStatement) throws SQLException;
     }
+
 
     /**
      * The Query class encapsulates the logic for executing SELECT queries and mapping
