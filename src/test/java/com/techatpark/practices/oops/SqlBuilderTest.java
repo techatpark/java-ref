@@ -26,10 +26,6 @@ class SqlBuilderTest {
                 )
                 """;
 
-        final String insertSql = """
-                INSERT INTO movie(title,directed_by) VALUES('Coolie','Lokesh')
-                """;
-
         final String query = """
                 SELECT id, title, directed_by from movie where id = ?
                 """;
@@ -40,7 +36,7 @@ class SqlBuilderTest {
 
             Assertions.assertEquals(0,updateRows);
 
-            updateRows = new SqlBuilder(insertSql).executeUpdate(connection);
+            updateRows = new SqlBuilder("INSERT INTO movie(title,directed_by) VALUES('Coolie','Lokesh')").executeUpdate(connection);
 
             Assertions.assertEquals(1,updateRows);
 
@@ -51,12 +47,21 @@ class SqlBuilderTest {
 
             Assertions.assertEquals("Coolie",movie.title());
 
-            new SqlBuilder(insertSql).executeUpdate(connection);
+            new SqlBuilder("INSERT INTO movie(title,directed_by) VALUES('Managaram','Lokesh')").executeUpdate(connection);
 
             Assertions.assertEquals(2, new SqlBuilder("SELECT id, title, directed_by from movie")
                     .query(SqlBuilderTest::mapRow)
                     .list(connection)
                     .size());
+
+
+            Assertions.assertEquals(1, new SqlBuilder("SELECT id, title, directed_by from movie where id=? AND directed_by=?")
+                    .param(1)
+                    .param("Lokesh")
+                    .query(SqlBuilderTest::mapRow)
+                    .list(connection)
+                    .size());
+
         }
 
     }

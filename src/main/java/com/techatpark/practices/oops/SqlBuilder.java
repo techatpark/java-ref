@@ -16,7 +16,7 @@ import java.util.List;
 public class SqlBuilder {
 
     private final String sql;         // The SQL query to be executed.
-    private final List<Object> parameters;  // A list of parameters for the query.
+    private final List<ParamMapper<?>> parameters;  // A list of parameters for the query.
 
     /**
      * Constructor that initializes the SqlBuilder with a given SQL query.
@@ -35,8 +35,22 @@ public class SqlBuilder {
      * @param value the value of the parameter to be added
      * @return the current SqlBuilder instance, for method chaining
      */
-    public SqlBuilder param(final Object value) {
-        this.parameters.add(value);
+    public SqlBuilder param(final Integer value) {
+        final int index = this.parameters.size() + 1;
+        this.parameters.add((preparedStatement) -> preparedStatement.setInt(index, value));
+        return this;
+    }
+
+    /**
+     * Adds a parameter to the SQL query. The method allows chaining and is used
+     * to bind values to placeholders in the SQL query.
+     *
+     * @param value the value of the parameter to be added
+     * @return the current SqlBuilder instance, for method chaining
+     */
+    public SqlBuilder param(final String value) {
+        final int index = this.parameters.size() + 1;
+        this.parameters.add((preparedStatement) -> preparedStatement.setString(index, value));
         return this;
     }
 
@@ -69,6 +83,8 @@ public class SqlBuilder {
         return this.new Query<>(rowMapper);
     }
 
+
+
     /**
      * RowMapper is an interface that defines how to map each row of a ResultSet
      * to a Java object.
@@ -84,6 +100,10 @@ public class SqlBuilder {
          * @throws SQLException if an SQL error occurs during mapping
          */
         T mapRow(ResultSet resultSet) throws SQLException;
+    }
+
+    public interface ParamMapper<T> {
+        void mapParam(PreparedStatement preparedStatement) throws SQLException;
     }
 
     /**
@@ -154,8 +174,8 @@ public class SqlBuilder {
      * @throws SQLException if a database access error occurs during parameter binding
      */
     private void prepare(final PreparedStatement preparedStatement) throws SQLException {
-        for (int i = 0; i < parameters.size(); i++) {
-            preparedStatement.setObject(i + 1, parameters.get(i));
+        for (ParamMapper<?> paramMapper: parameters) {
+            paramMapper.mapParam(preparedStatement);
         }
     }
 }
