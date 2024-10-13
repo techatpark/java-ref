@@ -12,15 +12,15 @@
 		<maven.compiler.target>21</maven.compiler.target>
 		<maven.compiler.source>21</maven.compiler.source>
 
-		<junit.version>5.11.0-M1</junit.version>
+		<junit.version>5.11.2</junit.version>
 		<archunit.version>1.3.0</archunit.version>
-		<sonar.version>3.11.0.3922</sonar.version>
+		<sonar.version>4.0.0.4121</sonar.version>
 		<jacoco.version>0.8.12</jacoco.version>
 		<maven.compiler.compilerArgument>-Xlint:-processing</maven.compiler.compilerArgument>
 		<maven.compiler.failOnWarning>true</maven.compiler.failOnWarning>
 
-		<maven.checkstyle.version>3.3.1</maven.checkstyle.version>
-		<checkstyle.version>10.16.0</checkstyle.version>
+		<maven.checkstyle.version>3.5.0</maven.checkstyle.version>
+		<checkstyle.version>10.18.2</checkstyle.version>
 		<asm.version>9.4</asm.version>
 
 
@@ -78,8 +78,6 @@
 					</dependency>
 				</dependencies>
 				<configuration>
-					<configLocation>checkstyle.xml</configLocation>
-					<excludes>**/module-info.java</excludes>
 					<consoleOutput>true</consoleOutput>
 					<failsOnError>true</failsOnError>
 					<linkXRef>false</linkXRef>

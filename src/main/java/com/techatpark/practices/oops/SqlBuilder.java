@@ -15,16 +15,22 @@ import java.util.List;
  */
 public class SqlBuilder {
 
-    private final String sql;         // The SQL query to be executed.
-    private final List<ParamMapper<?>> parameters;  // A list of parameters for the query.
+    /**
+     * The SQL query to be executed.
+     */
+    private final String sql;
+    /**
+     * A list of parameters for the query.
+     */
+    private final List<ParamMapper<?>> parameters;
 
     /**
      * Constructor that initializes the SqlBuilder with a given SQL query.
      *
-     * @param sql the SQL query to be prepared and executed
+     * @param theSql the SQL query to be prepared and executed
      */
-    public SqlBuilder(final String sql) {
-        this.sql = sql;
+    public SqlBuilder(final String theSql) {
+        this.sql = theSql;
         this.parameters = new ArrayList<>();
     }
 
@@ -37,7 +43,9 @@ public class SqlBuilder {
      */
     public SqlBuilder param(final Integer value) {
         final int index = this.parameters.size() + 1;
-        this.parameters.add((preparedStatement) -> preparedStatement.setInt(index, value));
+        this.parameters
+                .add((preparedStatement)
+                        -> preparedStatement.setInt(index, value));
         return this;
     }
 
@@ -50,12 +58,15 @@ public class SqlBuilder {
      */
     public SqlBuilder param(final String value) {
         final int index = this.parameters.size() + 1;
-        this.parameters.add((preparedStatement) -> preparedStatement.setString(index, value));
+        this.parameters
+                .add((preparedStatement)
+                -> preparedStatement.setString(index, value));
         return this;
     }
 
     /**
-     * Executes an update (such as INSERT, UPDATE, DELETE) using the prepared SQL query
+     * Executes an update (such as INSERT, UPDATE, DELETE) using the prepared
+     * SQL query
      * and the bound parameters.
      *
      * @param connection the database connection used to execute the query
@@ -64,7 +75,8 @@ public class SqlBuilder {
      */
     public int executeUpdate(final Connection connection) throws SQLException {
         int updatedRows;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement
+                     = connection.prepareStatement(sql)) {
             prepare(preparedStatement);
             updatedRows = preparedStatement.executeUpdate();
         }
@@ -72,11 +84,13 @@ public class SqlBuilder {
     }
 
     /**
-     * Creates a new Query object that can be used to execute a SELECT query and map
+     * Creates a new Query object that can be used to execute
+     * a SELECT query and map
      * the result set to a specific object type using the provided RowMapper.
      *
      * @param <T> the type of object to map the result set to
-     * @param rowMapper an implementation of RowMapper to map each row of the result set
+     * @param rowMapper an implementation of
+     *                  RowMapper to map each row of the result set
      * @return a new Query instance for execution
      */
     public <T> SqlBuilder.Query<T> query(final RowMapper<T> rowMapper) {
@@ -103,9 +117,11 @@ public class SqlBuilder {
     }
 
     /**
-     * Functional interface representing a parameter mapper that binds parameters
+     * Functional interface representing a parameter mapper
+     * that binds parameters
      * to a {@link PreparedStatement}. Implementations of this interface are
-     * responsible for mapping a specific parameter to the appropriate placeholder
+     * responsible for mapping a specific parameter
+     * to the appropriate placeholder
      * in the SQL query.
      *
      * @param <T> the type of the parameter to be mapped
@@ -117,7 +133,8 @@ public class SqlBuilder {
          * {@link PreparedStatement}. This method is called to map and set
          * parameter values for the SQL query.
          *
-         * @param preparedStatement the {@link PreparedStatement} to bind parameters to
+         * @param preparedStatement the {@link PreparedStatement}
+         *                          to bind parameters to
          * @throws SQLException if a database access error occurs or if
          *                      parameter binding fails
          */
@@ -126,26 +143,32 @@ public class SqlBuilder {
 
 
     /**
-     * The Query class encapsulates the logic for executing SELECT queries and mapping
+     * The Query class encapsulates the logic for executing
+     * SELECT queries and mapping
      * the results to Java objects using a RowMapper.
      *
      * @param <T> the type of object to map the result set to
      */
     public final class Query<T> {
 
+        /**
+         * Mapper for Result set.
+         */
         private final RowMapper<T> rowMapper;
 
         /**
-         * Private constructor for creating a Query instance with the specified RowMapper.
+         * Private constructor for creating a Query instance with
+         * the specified RowMapper.
          *
-         * @param rowMapper the RowMapper used to map the ResultSet rows
+         * @param theRowMapper the RowMapper used to map the ResultSet rows
          */
-        private Query(final RowMapper<T> rowMapper) {
-            this.rowMapper = rowMapper;
+        private Query(final RowMapper<T> theRowMapper) {
+            this.rowMapper = theRowMapper;
         }
 
         /**
-         * Executes the SQL query and returns a single mapped result from the ResultSet.
+         * Executes the SQL query and returns a single mapped result
+         * from the ResultSet.
          *
          * @param connection the database connection used to execute the query
          * @return the single mapped result, or null if no result is found
@@ -153,7 +176,8 @@ public class SqlBuilder {
          */
         public T single(final Connection connection) throws SQLException {
             T result = null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            try (PreparedStatement preparedStatement
+                         = connection.prepareStatement(sql)) {
                 prepare(preparedStatement);
                 ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -165,7 +189,8 @@ public class SqlBuilder {
         }
 
         /**
-         * Executes the SQL query and returns a list of mapped result from the ResultSet.
+         * Executes the SQL query and returns a list of mapped result
+         * from the ResultSet.
          *
          * @param connection the database connection used to execute the query
          * @return the list of mapped result, or empty if no result is found
@@ -173,7 +198,8 @@ public class SqlBuilder {
          */
         public List<T> list(final Connection connection) throws SQLException {
             List<T> result = new ArrayList<>();
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            try (PreparedStatement preparedStatement
+                         = connection.prepareStatement(sql)) {
                 prepare(preparedStatement);
                 ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -186,13 +212,16 @@ public class SqlBuilder {
     }
 
     /**
-     * Prepares the PreparedStatement by binding all the parameters to their respective
+     * Prepares the PreparedStatement by binding all the parameters
+     * to their respective
      * positions in the SQL query.
      *
      * @param preparedStatement the PreparedStatement to bind parameters to
-     * @throws SQLException if a database access error occurs during parameter binding
+     * @throws SQLException if a database access error occurs during parameter
+     * binding
      */
-    private void prepare(final PreparedStatement preparedStatement) throws SQLException {
+    private void prepare(final PreparedStatement preparedStatement)
+            throws SQLException {
         for (ParamMapper<?> paramMapper: parameters) {
             paramMapper.mapParam(preparedStatement);
         }
